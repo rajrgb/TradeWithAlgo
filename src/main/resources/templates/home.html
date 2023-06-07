@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+</head>
+<body>
+<h1>Trade With Algo</h1>
+<table th:each="obj, iStat: ${list}">
+<tr>
+<td th:text="${iStat.count}+'. '+${obj.name}" />
+<td>
+<a th:href="@{'https://api-v2.upstox.com/login/authorization/dialog?response_type=code&client_id='+${obj.apiKey}+'&redirect_uri=http://localhost:8080/getToken'}">
+<button>Authenticate</button></a></td>
+</tr>
+</table>
+</body>
+</html>
