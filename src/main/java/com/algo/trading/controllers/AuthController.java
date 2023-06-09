@@ -54,18 +54,29 @@ public String getToken(@RequestParam("code") String code) throws URISyntaxExcept
 	String key=c.getApiKey();
 	String secret=c.getSecret();
 	String RedUri="http://localhost:8080/getToken";
-	String url="https://api-v2.upstox.com/login/authorization/token?code="+code+"&client_id="
-			    +key+"&client_secret="+secret+"&redirect_uri="+RedUri+"&grant_type=authorization_code";
+	String url="https://api-v2.upstox.com/login/authorization/token";
 	URI uri=new URI(url);
 	
+	//body
+	MultiValueMap<String, String> body=new LinkedMultiValueMap<>();
+	body.add("code", code);
+	body.add("client_id", key);
+	body.add("client_secret", secret);
+	body.add("redirect_uri", RedUri);
+	body.add("grant_type", "authorization_code");
+	
+	//headers
 	MultiValueMap<String, String> headers=new LinkedMultiValueMap<>();
 	headers.add(HttpHeaders.ACCEPT, "application/json");
 	headers.add("Api-Version", "2.0");
 	headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
-	RequestEntity<Void> requestEntity=new RequestEntity<>(headers, HttpMethod.POST,uri);
+	
+	//request
+	RequestEntity<MultiValueMap<String, String>> requestEntity=new RequestEntity<>(body, headers, HttpMethod.POST,uri);
 	ResponseEntity<String> responseEntity=ts.exchange(requestEntity, String.class);
 	String response=responseEntity.getBody();
 	
+	//json string to object
 	ObjectMapper objectMapper=new ObjectMapper();
 	try {
 		user=objectMapper.readValue(response, User.class);

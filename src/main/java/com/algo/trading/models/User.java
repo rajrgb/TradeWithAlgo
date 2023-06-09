@@ -2,7 +2,12 @@ package com.algo.trading.models;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
+private boolean isActive;
+private String poa;
 private String email;
 private String exchanges[];
 private String products[];
@@ -17,7 +22,7 @@ public User() {
 	// TODO Auto-generated constructor stub
 }
 public User(String email, String[] exchanges, String[] products, String broker, String user_id, String user_name,
-		String[] order_types, String user_type, String access_token) {
+		String[] order_types, String user_type, String access_token, String poa, boolean isActive) {
 	super();
 	this.email = email;
 	this.exchanges = exchanges;
@@ -28,7 +33,23 @@ public User(String email, String[] exchanges, String[] products, String broker, 
 	this.order_types = order_types;
 	this.user_type = user_type;
 	this.access_token = access_token;
+	this.poa=poa;
+	this.isActive=isActive;
 }
+
+public boolean isActive() {
+	return isActive;
+}
+public void setActive(boolean isActive) {
+	this.isActive=isActive;
+}
+public String getPoa() {
+	return poa;
+}
+public void setPoa(String poa) {
+	this.poa=poa;
+}
+
 public String getEmail() {
 	return email;
 }
